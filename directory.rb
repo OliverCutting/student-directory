@@ -51,7 +51,7 @@ def print_menu
   puts "5. Organize by cohort".center(@width)
   puts "6. Save the list to students.csv".center(@width)
   puts "7. Load the list from students.csv".center(@width)
-  puts "Exit".center(@width) # 9 because we'll be adding more items
+  puts "8. Exit".center(@width) # 9 because we'll be adding more items
 end
 
 def line_break
@@ -123,7 +123,7 @@ def process(selection)
     save_students
   when "7"
     load_students
-  when "exit"
+  when "8"
     exit # this will cause the program to terminate
   else
     puts "I don't know what you meant, try again".center(@width)
