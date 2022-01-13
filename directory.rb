@@ -39,8 +39,7 @@ def interactive_menu
 end
 
 def print_menu
-  10.times {print "-------------"}
-  puts ""
+  line_break
   puts "1. Input the students".center(@width)
   puts "2. Show the students".center(@width)
   puts "3. Search students by initial".center(@width)
@@ -49,6 +48,11 @@ def print_menu
   puts "6. Save the list to students.csv".center(@width)
   puts "7. Load the list from students.csv".center(@width)
   puts "9. Exit".center(@width) # 9 because we'll be adding more items
+end
+
+def line_break
+  10.times {print "-------------"}
+  puts ""
 end
 
 def show_students
@@ -124,8 +128,7 @@ end
 
 def print_header
   puts "The students of Villains Academy".center(@width)
-  10.times {print "-------------"}
-  puts ""
+  line_break
 end
 
 def print_student_list
