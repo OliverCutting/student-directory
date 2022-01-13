@@ -123,9 +123,13 @@ end
 
 def print_student_list
   i = 0
-  while i < @students.count
-    puts "#{i + 1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort)".center(@width)
-    i += 1
+  if @students.count == 0
+    puts "No student data available".center(@width)
+  else
+    while i < @students.count
+      puts "#{i + 1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort)".center(@width)
+      i += 1
+    end
   end
 end
 
