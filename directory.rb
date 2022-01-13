@@ -157,24 +157,25 @@ end
 
 def save_students
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open("students.csv", "w") do |file|
   # iterate over the array of students 
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:height]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
-  file.close
   puts "Saved".center(@width)
+  end
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
+  file = File.open(filename, "r") do |file|
   file.readlines.each do |line|
     name, cohort, height = line.chomp.split(",")
     add_students(name, cohort, height)
   end
-  file.close
+  puts "Loaded".center(@width)
+  end
 end
 
 def add_students(name, cohort, height)
