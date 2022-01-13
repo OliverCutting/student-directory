@@ -12,7 +12,10 @@ def input_students
     height = gets.chomp
     puts "What cohort are they in?".center(@width)
     cohort = gets.chomp.capitalize
-    @students << {name: name, cohort: cohort = (Date::MONTHNAMES[Date.today.month]), height: height}
+    if cohort.empty?
+      cohort = Date::MONTHNAMES[Date.today.month]
+    end
+    add_students(name, cohort, height)
     if @students.length == 1
       puts "Now we have #{@students.count} student".center(@width)
     elsif @students.length > 1
@@ -157,9 +160,13 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort, height = line.chomp.split(",")
-    @students << {name: name, cohort: cohort, height: height}
+    add_students(name, cohort, height)
   end
   file.close
+end
+
+def add_students(name, cohort, height)
+  @students << {name: name, cohort: cohort, height: height}
 end
 
 def try_load_students
