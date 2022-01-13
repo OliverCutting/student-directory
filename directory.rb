@@ -1,30 +1,36 @@
 require 'date'
 @students = [] # an empty array accessible to all methods
 @width = 125
+
 def input_students
   puts "Please enter the names of the students".center(@width)
   puts "To finish, just hit return twice".center(@width)
-  # get the first name
-  # while the name is not empty, repeat this code
   name = STDIN.gets.chomp.capitalize
   while !name.empty?
-    puts "How tall are they?".center(@width)
-    height = gets.chomp
-    puts "What cohort are they in?".center(@width)
-    cohort = gets.chomp.capitalize
-    if cohort.empty?
-      cohort = Date::MONTHNAMES[Date.today.month]
-    end
-    add_students(name, cohort, height)
+    add_height
+    add_cohort
+    add_students(name, @cohort, @height)
     if @students.length == 1
       puts "Now we have #{@students.count} student".center(@width)
     elsif @students.length > 1
       puts "Now we have #{@students.count} students".center(@width)
     end
-
     name = STDIN.gets.chomp.capitalize
   end
   @students
+end
+
+def add_height
+  puts "How tall are they?".center(@width)
+  @height = gets.chomp
+end
+
+def add_cohort
+  puts "What cohort are they in?".center(@width)
+  @cohort = gets.chomp.capitalize
+  if @cohort.empty?
+    @cohort = Date::MONTHNAMES[Date.today.month]
+  end
 end
 
 def interactive_menu
@@ -154,6 +160,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Saved".center(@width)
 end
 
 def load_students(filename = "students.csv")
@@ -171,8 +178,10 @@ end
 
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
-  if File.exists?(filename)
+  if filename.nil?
+    load_students
+    puts "Loaded #{@students.count} from students.csv".center(@width)
+  elsif File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}".center(@width)
   else
