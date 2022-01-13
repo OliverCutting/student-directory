@@ -13,7 +13,12 @@ def input_students
     puts "What cohort are they in?".center(@width)
     cohort = gets.chomp.capitalize
     @students << {name: name, cohort: cohort = (Date::MONTHNAMES[Date.today.month]), height: height}
-    puts "Now we have #{@students.count} students".center(@width)
+    if @students.length == 1
+      puts "Now we have #{@students.count} student".center(@width)
+    elsif @students.length > 1
+      puts "Now we have #{@students.count} students".center(@width)
+    end
+
     name = STDIN.gets.chomp.capitalize
   end
   @students
@@ -125,7 +130,11 @@ def print_student_list
 end
 
 def print_footer
+  if @students.count == 1
+    puts "Overall, we have #{@students.count} great student".center(@width)
+  elsif @students.count > 1
   puts "Overall, we have #{@students.count} great students".center(@width)
+  end
 end
 
 def save_students
