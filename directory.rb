@@ -10,12 +10,16 @@ def input_students
     add_height
     add_cohort
     add_students(name, @cohort, @height)
-    if @students.length == 1 then puts "Now we have #{@students.count} student".center(@width)
-    elsif @students.length > 1 then puts "Now we have #{@students.count} students".center(@width)
-    end
+    student_count
     name = STDIN.gets.chomp.capitalize
   end
   @students
+end
+
+def student_count
+  if @students.length == 1 then puts "Now we have #{@students.count} student".center(@width)
+  elsif @students.length > 1 then puts "Now we have #{@students.count} students".center(@width)
+  end
 end
 
 def add_height
