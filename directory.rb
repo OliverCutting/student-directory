@@ -33,8 +33,9 @@ def print_menu
   puts "2. Show the students".center(@width)
   puts "3. Search students by initial".center(@width)
   puts "4. Show students whose names are shorter than X characters".center(@width)
-  puts "5. Save the list to students.csv".center(@width)
-  puts "6. Load the list from students.csv".center(@width)
+  puts "5. Organize by cohort".center(@width)
+  puts "6. Save the list to students.csv".center(@width)
+  puts "7. Load the list from students.csv".center(@width)
   puts "9. Exit".center(@width) # 9 because we'll be adding more items
 end
 
@@ -68,6 +69,24 @@ def print_shorter_than
   end
 end
 
+def show_by_cohort
+  if @students.empty?
+    puts "No students available".center(@width)
+  else
+    cohorts = @students.map do |student|
+      student[:cohort]
+    end
+  end
+  cohorts.uniq.each do |cohort|
+    puts "#{cohort} cohort".upcase.center(@width)
+    @students.each do |student|  
+       if student[:cohort] == cohort
+           puts student[:name].center(@width)
+       end
+    end
+  end
+end
+
 def process(selection)
   case selection
   when "1"
@@ -79,8 +98,10 @@ def process(selection)
   when "4"
     print_shorter_than
   when "5"
-    save_students
+    show_by_cohort
   when "6"
+    save_students
+  when "7"
     load_students
   when "9"
     exit # this will cause the program to terminate
