@@ -1,4 +1,5 @@
 require 'date'
+require 'csv'
 @students = [] # an empty array accessible to all methods
 @width = 125
 
@@ -156,26 +157,20 @@ def print_footer
 end
 
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w") do |file|
-  # iterate over the array of students 
+  CSV.open("students.csv", "wb") do |file|
   @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:height]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+    file << student_data = [student[:name], student[:cohort], student[:height]]
   end
   puts "Saved".center(@width)
   end
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r") do |file|
-  file.readlines.each do |line|
-    name, cohort, height = line.chomp.split(",")
+  CSV.foreach(filename) do |row|
+    name, cohort, height = row
     add_students(name, cohort, height)
   end
   puts "Loaded".center(@width)
-  end
 end
 
 def add_students(name, cohort, height)
