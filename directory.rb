@@ -1,16 +1,19 @@
+require 'date'
 @students = [] # an empty array accessible to all methods
-
+@width = 125
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "Please enter the names of the students".center(@width)
+  puts "To finish, just hit return twice".center(@width)
   # get the first name
-  name = gets.chomp.capitalize
   # while the name is not empty, repeat this code
-  while !name.empty? do
-    # add the student hash to the array
-    @students << {name: name, cohort: :november}
-    puts "Now we have #{@students.count} students"
-    # get another name from the user
+  name = STDIN.gets.chomp.capitalize
+  while !name.empty?
+    puts "How tall are they?".center(@width)
+    height = gets.chomp
+    puts "What cohort are they in?".center(@width)
+    cohort = gets.chomp.capitalize
+    @students << {name: name, cohort: cohort = (Date::MONTHNAMES[Date.today.month]), height: height}
+    puts "Now we have #{@students.count} students".center(@width)
     name = STDIN.gets.chomp.capitalize
   end
   @students
@@ -24,13 +27,15 @@ def interactive_menu
 end
 
 def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Search students by initial"
-  puts "4. Show students whose names are shorter than X characters"
-  puts "5. Save the list to students.csv"
-  puts "6. Load the list from students.csv"
-  puts "9. Exit" # 9 because we'll be adding more items
+  10.times {print "-------------"}
+  puts ""
+  puts "1. Input the students".center(@width)
+  puts "2. Show the students".center(@width)
+  puts "3. Search students by initial".center(@width)
+  puts "4. Show students whose names are shorter than X characters".center(@width)
+  puts "5. Save the list to students.csv".center(@width)
+  puts "6. Load the list from students.csv".center(@width)
+  puts "9. Exit".center(@width) # 9 because we'll be adding more items
 end
 
 def show_students
@@ -40,24 +45,24 @@ def show_students
 end
 
 def print_specific_initial
-  puts "Which initial would you like to search through?"
+  puts "Which initial would you like to search through?".center(@width)
   initial = gets.chomp
   @students.each do |student| 
     student.each do |key, value|
       if key == :name && value.chr == initial 
-        puts value 
+        puts value.center(@width) 
       end
     end
   end
 end
 
 def print_shorter_than
-  puts "How many letters would you like to see?"
+  puts "How many letters would you like to see?".center(@width)
   input = gets.chomp.to_i
   @students.each do |student|
     student.each do |key, value|
       if key == :name && value.length <= input
-        puts value
+        puts value.center(@width)
       end
     end
   end
@@ -80,25 +85,26 @@ def process(selection)
   when "9"
     exit # this will cause the program to terminate
   else
-    puts "I don't know what you meant, try again"
+    puts "I don't know what you meant, try again".center(@width)
   end
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(@width)
+  10.times {print "-------------"}
+  puts ""
 end
 
 def print_student_list
   i = 0
   while i < @students.count
-    puts "#{i + 1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort)"
+    puts "#{i + 1}. #{@students[i][:name]} (#{@students[i][:cohort]} cohort)".center(@width)
     i += 1
   end
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great students".center(@width)
 end
 
 def save_students
@@ -106,7 +112,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students 
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:height]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -116,8 +122,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    name, cohort, height = line.chomp.split(",")
+    @students << {name: name, cohort: cohort, height: height}
   end
   file.close
 end
@@ -127,9 +133,9 @@ def try_load_students
   return if filename.nil?
   if File.exists?(filename)
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}".center(@width)
   else
-    puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist.".center(@width)
     exit
   end
 end
